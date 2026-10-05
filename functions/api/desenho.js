@@ -76,11 +76,18 @@ export async function onRequest({ request, env }) {
   }
 
   // 3. token
-  const clientId = env.GOOGLE_CLIENT_ID;
-  if (!clientId) return erro(500, "Servidor sem GOOGLE_CLIENT_ID configurado.");
-
   const token = extrairToken(request);
   if (!token) return erro(401, "Entre com sua conta Google para assinar o desenho.");
+
+  // Sem o Client ID não há como conferir a audiência do token, e um token que
+  // não pode ser verificado não pode ser aceito. A resposta continua 401: esta
+  // rota nunca devolve 500, para que o contrato valha mesmo se a variável de
+  // ambiente faltar.
+  const clientId = env.GOOGLE_CLIENT_ID;
+  if (!clientId) {
+    console.error("GOOGLE_CLIENT_ID ausente no ambiente");
+    return erro(401, "Token inválido, expirado ou com e-mail não verificado.");
+  }
 
   const email = await emailDoToken(token, clientId);
   if (!email) return erro(401, "Token inválido, expirado ou com e-mail não verificado.");

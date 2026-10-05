@@ -127,3 +127,27 @@ figure svg {
     grid-row: auto;
   }
 }
+
+/* Login com Google e identidade confirmada pelo servidor. */
+
+#login {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+#identidade {
+  margin: 0 0 24px;
+  padding: 10px 14px;
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--destaque);
+  border-radius: 4px;
+  background: var(--superficie);
+  color: var(--texto-suave);
+  font-size: 0.95rem;
+}
+
+#identidade[hidden],
+#login[hidden] {
+  display: none;
+}

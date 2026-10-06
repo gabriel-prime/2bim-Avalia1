@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Envoltórias — Curvas</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="curvas">
+  <main>
+    <a class="voltar" href="./">← demonstrações</a>
+
+    <header>
+      <h1>Envoltórias</h1>
+      <p>
+        Dada uma família de retas indexada por um parâmetro, existe uma curva tangente a todas
+        elas. Nenhuma reta a desenha; juntas, a revelam.
+      </p>
+    </header>
+
+    <p class="rotulo">O método</p>
+    <h2>Como achar uma curva que não existe</h2>
+    <p class="texto">
+      Escreva cada reta da família como <code>F(x, y, t) = 0</code>. A envoltória satisfaz duas
+      equações ao mesmo tempo:
+    </p>
+    <p class="formula">
+      <i>F</i>(<i>x</i>, <i>y</i>, <i>t</i>) <span class="op">=</span> 0
+      <span class="op" style="padding:0 1.4em">e</span>
+      <span class="fracao"><span>∂<i>F</i></span><span>∂<i>t</i></span></span>(<i>x</i>, <i>y</i>, <i>t</i>) <span class="op">=</span> 0
+      <span class="nota">Elimine <i>t</i> entre as duas e sobra a equação da envoltória.</span>
+    </p>
+    <p class="texto">
+      A intuição: duas retas vizinhas, de parâmetros <i>t</i> e <i>t</i> + <i>dt</i>, se cruzam em
+      algum ponto. Quando <i>dt</i> → 0, esse encontro tende ao ponto onde a reta <strong>toca</strong>
+      a envoltória. A segunda equação é a condição de que duas retas infinitamente próximas coincidam ali.
+    </p>
+
+    <p class="rotulo">Demonstração 1</p>
+    <h2>Tabuada modular no círculo</h2>
+    <p class="texto">
+      <i>N</i> pontos no círculo. Ligue cada ponto <i>i</i> ao ponto <i>k</i>·<i>i</i> mod <i>N</i>.
+      É o desenho deste site.
+    </p>
+    <figure class="demo">
+      <canvas id="c-tabuada"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>multiplicador k <b id="t-k-v">2</b></span><input type="range" id="t-k" min="2" max="80" step="1" value="2"></label>
+        <label class="ctl"><span>pontos N <b id="t-n-v">240</b></span><input type="range" id="t-n" min="30" max="400" step="10" value="240"></label>
+        <label class="alternar"><input type="checkbox" id="t-env" checked> envoltória</label>
+      </div>
+      <figcaption id="t-cap">k = 2 → cardioide, 1 cúspide.</figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — por que sai uma epicicloide</summary>
+      <div>
+        <p><strong>1.</strong> A corda do círculo unitário entre os ângulos α e β satisfaz
+        <i>x</i> cos((α+β)/2) + <i>y</i> sen((α+β)/2) = cos((β−α)/2). Com α = θ e β = <i>k</i>θ,
+        defina <i>m</i> = (<i>k</i>+1)/2 e <i>n</i> = (<i>k</i>−1)/2.</p>
+        <p><strong>2.</strong> Derivando em θ e igualando a zero, o sistema 2×2 tem matriz de
+        rotação — a inversa é a transposta, e não há conta pesada.</p>
+        <p><strong>3.</strong> Abrindo em soma de arcos, com <i>m</i>−<i>n</i> = 1 e <i>m</i>+<i>n</i> = <i>k</i>:</p>
+        <p class="formula">
+          <i>x</i> <span class="op">=</span> <span class="fracao"><span><i>k</i> cos θ + cos <i>k</i>θ</span><span><i>k</i> + 1</span></span>
+          <span class="op" style="padding:0 1.2em"></span>
+          <i>y</i> <span class="op">=</span> <span class="fracao"><span><i>k</i> sen θ + sen <i>k</i>θ</span><span><i>k</i> + 1</span></span>
+          <span class="nota">Parametrização de uma epicicloide de <i>k</i> − 1 cúspides.</span>
+        </p>
+        <p><strong>Confira:</strong> <i>k</i> = 2 dá a cardioide; <i>k</i> = 3, a nefroide. Medindo a
+        distância de cada corda a essa curva, o maior desvio é 10⁻⁶ — resolução de amostragem.
+        Toda corda tangencia.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">Demonstração 2</p>
+    <h2>A escada que escorrega</h2>
+    <p class="texto">
+      Uma escada de comprimento fixo com o pé no chão e o topo na parede. Nenhuma posição é curva;
+      a borda da região que elas não invadem tem quatro pontas.
+    </p>
+    <figure class="demo">
+      <canvas id="c-astroide"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>posições <b id="a-n-v">60</b></span><input type="range" id="a-n" min="6" max="200" step="2" value="60"></label>
+        <label class="alternar"><input type="checkbox" id="a-env" checked> envoltória</label>
+      </div>
+      <figcaption>Os quatro quadrantes aparecem porque a escada varre os dois sentidos de cada eixo.</figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — da escada à equação da astroide</summary>
+      <div>
+        <p><strong>1.</strong> Com o pé em (<i>L</i> cos <i>t</i>, 0) e o topo em (0, <i>L</i> sen <i>t</i>),
+        a reta é <i>F</i> = <i>x</i> sen <i>t</i> + <i>y</i> cos <i>t</i> − <i>L</i> sen <i>t</i> cos <i>t</i> = 0.</p>
+        <p><strong>2.</strong> ∂<i>F</i>/∂<i>t</i> = <i>x</i> cos <i>t</i> − <i>y</i> sen <i>t</i> − <i>L</i>(cos²<i>t</i> − sen²<i>t</i>) = 0.</p>
+        <p><strong>3.</strong> O par que satisfaz as duas é <i>x</i> = <i>L</i> cos³<i>t</i>, <i>y</i> = <i>L</i> sen³<i>t</i>.</p>
+        <p><strong>4.</strong> Elevando a 2/3 e somando, cai na identidade pitagórica:</p>
+        <p class="formula"><i>x</i><sup>2/3</sup> <span class="op">+</span> <i>y</i><sup>2/3</sup> <span class="op">=</span> <i>L</i><sup>2/3</sup></p>
+        <p>A astroide também sai de um círculo de raio <i>L</i>/4 rolando dentro de um de raio <i>L</i> —
+        pertence às duas famílias ao mesmo tempo.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">Demonstração 3</p>
+    <h2>Spirograph</h2>
+    <p class="texto">
+      Um círculo de raio <i>r</i> rola sem deslizar dentro de outro de raio <i>R</i>. Marque um ponto
+      a distância <i>d</i> do centro móvel.
+    </p>
+    <figure class="demo">
+      <canvas id="c-spiro"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>raio móvel r <b id="s-r-v">37</b></span><input type="range" id="s-r" min="7" max="95" step="1" value="37"></label>
+        <label class="ctl"><span>distância d <b id="s-d-v">52</b></span><input type="range" id="s-d" min="5" max="110" step="1" value="52"></label>
+        <label class="alternar"><input type="checkbox" id="s-cir"> círculos</label>
+      </div>
+      <figcaption id="s-cap">R = 100.</figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — rolar sem deslizar</summary>
+      <div>
+        <p><strong>1.</strong> O centro do disco pequeno percorre um círculo de raio <i>R</i> − <i>r</i>.</p>
+        <p><strong>2.</strong> A condição de não deslizar é o passo todo: o arco percorrido no círculo
+        grande iguala o arco girado no pequeno, <i>Rt</i> = <i>r</i>φ, logo φ = (<i>R</i>/<i>r</i>)<i>t</i>.</p>
+        <p><strong>3.</strong> O ângulo líquido do ponto marcado é φ − <i>t</i> = (<i>R</i>−<i>r</i>)<i>t</i>/<i>r</i>:</p>
+        <p class="formula">
+          <i>x</i> <span class="op">=</span> (<i>R</i>−<i>r</i>) cos <i>t</i> <span class="op">+</span> <i>d</i> cos((<i>R</i>−<i>r</i>)<i>t</i>/<i>r</i>)<br>
+          <i>y</i> <span class="op">=</span> (<i>R</i>−<i>r</i>) sen <i>t</i> <span class="op">−</span> <i>d</i> sen((<i>R</i>−<i>r</i>)<i>t</i>/<i>r</i>)
+        </p>
+        <p><strong>Quando fecha:</strong> só se <i>R</i>/<i>r</i> for racional. Com <i>R</i>/<i>r</i> = <i>p</i>/<i>q</i>
+        irredutível, são <i>q</i> voltas e <i>p</i> pétalas. Com <i>R</i> = 2<i>r</i> e <i>d</i> = <i>r</i>, o
+        ponto percorre um diâmetro reto — círculos gerando movimento retilíneo, o teorema de Copérnico.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">Demonstração 4</p>
+    <h2>Rosas de Maurer</h2>
+    <p class="texto">
+      A mesma ideia da tabuada, aplicada a outra curva: pegue a rosa <i>r</i> = sen(<i>n</i>θ) e ligue
+      com retas os pontos amostrados a cada <i>d</i> graus.
+    </p>
+    <figure class="demo">
+      <canvas id="c-maurer"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>pétalas n <b id="m-n-v">6</b></span><input type="range" id="m-n" min="2" max="12" step="1" value="6"></label>
+        <label class="ctl"><span>passo d° <b id="m-d-v">71</b></span><input type="range" id="m-d" min="1" max="180" step="1" value="71"></label>
+        <label class="alternar"><input type="checkbox" id="m-rosa" checked> rosa</label>
+      </div>
+      <figcaption>n = 6, d = 71 é o caso clássico. A rosa em azul é a curva real; as retas são o desenho.</figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — pétalas e por que o passo importa</summary>
+      <div>
+        <p><strong>Quantas pétalas.</strong> Em <i>r</i> = sen(<i>n</i>θ) com <i>n</i> ímpar, a curva
+        fecha em [0, π) e dá <i>n</i> pétalas; com <i>n</i> par precisa de [0, 2π) e dá 2<i>n</i>. A
+        diferença vem de sen(<i>n</i>(θ+π)) = (−1)<sup><i>n</i></sup> sen(<i>n</i>θ).</p>
+        <p><strong>Por que <i>d</i> muda tudo.</strong> Percorrer 361 passos de <i>d</i> graus é andar
+        <i>jd</i> mod 360 — aritmética modular de novo. Se mdc(<i>d</i>, 360) é grande, poucos ângulos
+        são visitados. Com <i>d</i> = 71, mdc(71, 360) = 1: todos os 360 são visitados embaralhados.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">Demonstração 5</p>
+    <h2>Lissajous</h2>
+    <p class="texto">
+      Dois senos perpendiculares — o que aparece num osciloscópio com um sinal em cada eixo.
+    </p>
+    <figure class="demo">
+      <canvas id="c-liss"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>frequência a <b id="l-a-v">3</b></span><input type="range" id="l-a" min="1" max="12" step="1" value="3"></label>
+        <label class="ctl"><span>frequência b <b id="l-b-v">4</b></span><input type="range" id="l-b" min="1" max="12" step="1" value="4"></label>
+        <label class="ctl"><span>fase δ <b id="l-p-v">0.00</b></span><input type="range" id="l-p" min="0" max="314" step="1" value="0"></label>
+        <label class="alternar"><input type="checkbox" id="l-amort"> amortecer</label>
+      </div>
+      <figcaption id="l-cap">a : b = 3 : 4.</figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — por que a razão é tudo</summary>
+      <div>
+        <p class="formula">
+          <i>x</i>(<i>t</i>) <span class="op">=</span> sen(<i>at</i> + δ)
+          <span class="op" style="padding:0 1.4em"></span>
+          <i>y</i>(<i>t</i>) <span class="op">=</span> sen(<i>bt</i>)
+        </p>
+        <p><strong>Fechamento.</strong> A curva se fecha quando existe período comum, o que exige
+        <i>a</i>/<i>b</i> racional. Com <i>p</i>/<i>q</i> irredutível, ela toca a borda horizontal
+        <i>p</i> vezes e a vertical <i>q</i> vezes — é assim que se lê a razão na tela.</p>
+        <p><strong>Irracional.</strong> A curva nunca se repete e preenche densamente o quadrado. É
+        equidistribuição de Weyl, o mesmo teorema que garante que {<i>n</i>α} se espalha uniformemente.</p>
+        <p><strong>Harmonógrafo.</strong> Multiplique por <i>e</i><sup>−λ<i>t</i></sup> e a figura
+        espirala para dentro. Era um pêndulo com uma caneta, e a beleza vinha do atrito.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">Demonstração 6</p>
+    <h2>O ângulo mais irracional que existe</h2>
+    <p class="texto">
+      Sementes colocadas uma a uma, cada qual girada um ângulo fixo, a distância √<i>n</i> do centro.
+      Quase todo ângulo desperdiça espaço. Um não.
+    </p>
+    <figure class="demo">
+      <canvas id="c-filo"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>ângulo <b id="f-a-v">137.508°</b></span><input type="range" id="f-a" min="130000" max="145000" step="25" value="137508"></label>
+        <label class="ctl"><span>sementes <b id="f-n-v">900</b></span><input type="range" id="f-n" min="100" max="2000" step="50" value="900"></label>
+      </div>
+      <figcaption id="f-cap">137,508° — o ângulo áureo.</figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — por que exatamente 137,508°</summary>
+      <div>
+        <p><strong>1.</strong> Se o ângulo for 360°·<i>p</i>/<i>q</i>, depois de <i>q</i> sementes
+        você volta ao mesmo raio: tudo se alinha em <i>q</i> braços e sobra vazio. Empacotar bem exige
+        um ângulo irracional.</p>
+        <p><strong>2.</strong> Mas qual? Todo irracional é aproximado por racionais via frações
+        contínuas. Quanto melhor a aproximação, mais a planta "quase" se alinha. Queremos o irracional
+        <em>pior</em> de aproximar.</p>
+        <p><strong>3.</strong> Termos grandes na fração contínua dão truncamentos muito bons. O número
+        cuja expansão só tem 1 — o menor possível em cada posição — é o mais resistente: é φ.</p>
+        <p><strong>4.</strong> Dividir a volta na razão áurea deixa a parte menor:
+        360°/φ² ≈ 137,50776°.</p>
+        <p><strong>5.</strong> As espirais que o olho enxerga são os convergentes de φ: 1, 1, 2, 3, 5,
+        8, 13, 21. Contar braços de girassol dá Fibonacci porque eles <em>são</em> os melhores racionais
+        que aproximam φ — não por mística, por aproximação diofantina.</p>
+      </div>
+    </details>
+  </main>
+
+  <script type="module" src="parte1.js"></script>
+</body>
+</html>

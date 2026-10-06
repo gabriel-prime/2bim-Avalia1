@@ -151,3 +151,175 @@ figure svg {
 #login[hidden] {
   display: none;
 }
+
+/* Demonstrações de curvas (public/curvas/). Reaproveitam as variáveis acima. */
+
+body.curvas main { max-width: 860px; }
+
+.curvas .voltar {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: var(--texto-suave);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.curvas .voltar:hover { color: var(--destaque); }
+
+.curvas h2 {
+  margin: 48px 0 8px;
+  font-family: Georgia, serif;
+  font-weight: normal;
+  font-size: 1.6rem;
+}
+
+.curvas .rotulo {
+  margin: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--destaque);
+}
+
+.curvas p { color: var(--texto-suave); }
+.curvas p.texto { margin: 0 0 20px; max-width: 62ch; }
+.curvas strong { color: var(--texto); font-weight: 600; }
+
+.demo {
+  margin: 0 0 16px;
+  padding: 0;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--superficie);
+}
+
+.demo canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  background: var(--fundo);
+}
+.demo canvas.largo { aspect-ratio: 16 / 10; }
+
+.controles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--borda);
+  align-items: flex-end;
+}
+
+.ctl { display: flex; flex-direction: column; gap: 4px; flex: 1 1 140px; min-width: 120px; }
+
+.ctl > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+}
+.ctl > span b { color: var(--destaque); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.ctl input[type="range"] { width: 100%; accent-color: var(--destaque); margin: 0; }
+
+.ctl select {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 5px 8px;
+  background: var(--fundo);
+  color: var(--texto);
+  border: 1px solid var(--borda);
+  border-radius: 4px;
+}
+
+.alternar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  flex: 0 0 auto;
+  padding-bottom: 3px;
+  cursor: pointer;
+}
+.alternar input { accent-color: var(--destaque); margin: 0; }
+
+.demo figcaption {
+  padding: 10px 16px 12px;
+  border-top: 1px solid var(--borda);
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+.deducao {
+  margin: 0 0 32px;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  background: var(--superficie);
+  overflow: hidden;
+}
+.deducao summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 11px 16px;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--destaque);
+}
+.deducao summary::-webkit-details-marker { display: none; }
+.deducao summary::before { content: "▸ "; }
+.deducao[open] summary::before { content: "▾ "; }
+.deducao[open] summary { border-bottom: 1px solid var(--borda); }
+.deducao > div { padding: 16px; }
+.deducao p { margin: 0 0 12px; font-size: 0.92rem; }
+.deducao p:last-child { margin-bottom: 0; }
+
+.formula {
+  margin: 0 0 12px;
+  padding: 14px;
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 2;
+  color: var(--texto);
+  border-top: 1px solid var(--borda);
+  border-bottom: 1px solid var(--borda);
+  overflow-x: auto;
+}
+.formula i { font-style: italic; }
+.formula .op { padding: 0 0.3em; color: var(--texto-suave); }
+.formula .nota { display: block; font-size: 0.78rem; color: var(--texto-suave); margin-top: 6px; line-height: 1.5; }
+
+.fracao { display: inline-flex; flex-direction: column; vertical-align: -0.55em; text-align: center; padding: 0 0.25em; }
+.fracao > span:first-child { border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+.fracao > span:last-child { padding-top: 1px; }
+
+.indice { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.indice a {
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  background: var(--superficie);
+  color: var(--texto);
+  text-decoration: none;
+}
+.indice a:hover { border-color: var(--destaque); }
+.indice a b { display: block; font-size: 1.05rem; margin-bottom: 2px; }
+.indice a span { color: var(--texto-suave); font-size: 0.88rem; }
+
+.rodape {
+  margin: 36px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--borda);
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+.rodape a { color: var(--destaque); }

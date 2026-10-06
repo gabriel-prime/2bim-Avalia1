@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>O acaso tem forma — Curvas</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="curvas">
+  <main>
+    <a class="voltar" href="./">← demonstrações</a>
+
+    <header>
+      <h1>O acaso tem forma</h1>
+      <p>
+        Quando você joga ruído dentro de uma regra, o que sobrevive? Nos cinco casos aqui, a resposta
+        é sempre a mesma: o acaso não decide a forma. Ele só preenche.
+      </p>
+    </header>
+
+    <p class="rotulo">1 · determinismo sem previsibilidade</p>
+    <h2>Atratores estranhos</h2>
+    <p class="texto">
+      Duas linhas de aritmética, sem nenhum sorteio. O caminho é impossível de prever; o desenho é
+      sempre o mesmo.
+    </p>
+    <figure class="demo">
+      <canvas id="c-clifford"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>a <b id="cl-a-v">−1.40</b></span><input type="range" id="cl-a" min="-200" max="200" step="1" value="-140"></label>
+        <label class="ctl"><span>b <b id="cl-b-v">1.60</b></span><input type="range" id="cl-b" min="-200" max="200" step="1" value="160"></label>
+        <label class="ctl"><span>c <b id="cl-c-v">1.00</b></span><input type="range" id="cl-c" min="-200" max="200" step="1" value="100"></label>
+        <label class="ctl"><span>d <b id="cl-d-v">0.70</b></span><input type="range" id="cl-d" min="-200" max="200" step="1" value="70"></label>
+      </div>
+      <figcaption>300 mil iterações, sem nenhum número aleatório. O brilho é um histograma de visitas.</figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — por que a imprevisibilidade não apaga a forma</summary>
+      <div>
+        <p class="formula">
+          <i>x</i><sub><i>n</i>+1</sub> <span class="op">=</span> sen(<i>a y<sub>n</sub></i>) <span class="op">+</span> <i>c</i> cos(<i>a x<sub>n</sub></i>)<br>
+          <i>y</i><sub><i>n</i>+1</sub> <span class="op">=</span> sen(<i>b x<sub>n</sub></i>) <span class="op">+</span> <i>d</i> cos(<i>b y<sub>n</sub></i>)
+        </p>
+        <p><strong>1. Dependência sensível.</strong> Dois pontos a distância ε se afastam como
+        ε·<i>e</i><sup>λ<i>n</i></sup>, com λ &gt; 0. Prever a trajetória é impossível, e a culpa não é
+        de ruído: é da aritmética.</p>
+        <p><strong>2. Mas as órbitas não escapam.</strong> |sen| e |cos| são limitados por 1, então toda
+        órbita cai e permanece num retângulo compacto. A dinâmica o comprime repetidamente, e a
+        interseção de todas as imagens é o <strong>atrator</strong>.</p>
+        <p><strong>3. A imagem não é a trajetória — é a medida.</strong> O que você vê é
+        <strong>quanto tempo</strong> a órbita passa em cada região: a medida invariante. O teorema
+        ergódico de Birkhoff garante que a média temporal ao longo de quase toda órbita converge para
+        ela. É por isso que o ponto inicial não importa: trajetórias diferentes visitam lugares
+        diferentes em instantes diferentes, com as mesmas frequências.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">2 · acaso puro</p>
+    <h2>A lei do √n</h2>
+    <p class="texto">
+      Nenhuma regra além do sorteio: a cada passo, um dos quatro vizinhos. Não há forma a encontrar —
+      e mesmo assim há uma lei exata.
+    </p>
+    <figure class="demo">
+      <canvas id="c-passeio"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>passos <b id="pa-n-v">4000</b></span><input type="range" id="pa-n" min="200" max="20000" step="200" value="4000"></label>
+        <label class="ctl"><span>caminhos <b id="pa-k-v">6</b></span><input type="range" id="pa-k" min="1" max="14" step="1" value="6"></label>
+        <label class="ctl"><span>semente <b id="pa-s-v">7</b></span><input type="range" id="pa-s" min="1" max="60" step="1" value="7"></label>
+        <label class="alternar"><input type="checkbox" id="pa-env" checked> círculo √n</label>
+      </div>
+      <figcaption id="pa-cap"></figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — por que exatamente √n, e por que o detalhe não importa</summary>
+      <div>
+        <p class="formula">
+          E[|<i>X<sub>n</sub></i>|²] <span class="op">=</span> ∑E[|<i>p<sub>i</sub></i>|²]
+          <span class="op">+</span> ∑<sub><i>i</i>≠<i>j</i></sub> E[<i>p<sub>i</sub></i>·<i>p<sub>j</sub></i>]
+          <span class="op">=</span> <i>n</i>
+          <span class="nota">Os termos cruzados morrem: passos independentes têm produto escalar de média zero.</span>
+        </p>
+        <p>Logo a distância típica é <strong>√<i>n</i></strong>. Dobrar a distância custa
+        <strong>quatro vezes</strong> mais passos — é por isso que difusão é tão lenta em escalas
+        grandes, e por que um perfume leva minutos para atravessar uma sala que o som cruza em
+        milissegundos.</p>
+        <p><strong>Verificação.</strong> Com 4 mil amostras: E[<i>r</i>²] = 100,0 para <i>n</i> = 100;
+        405,8 para 400; 1654,6 para 1600; 6435,4 para 6400.</p>
+        <p><strong>Por que o detalhe do passo é irrelevante.</strong> Troque os quatro vizinhos por
+        direção contínua ou comprimentos variáveis com variância finita: nada muda no limite. O teorema
+        central do limite faz a posição reescalada convergir para o <strong>movimento browniano</strong>,
+        qualquer que seja a distribuição do passo. Isso tem nome: universalidade. A microestrutura é
+        esquecida; sobrevive só a variância.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">3 · ruído mais uma regra</p>
+    <h2>Agregação limitada por difusão</h2>
+    <p class="texto">
+      Solte um passeio aleatório de longe; quando encostar no que já existe, congele. Repita. A regra
+      tem uma frase e produz a forma que você reconhece de descargas elétricas e cristais de gelo.
+    </p>
+    <figure class="demo">
+      <canvas id="c-dla"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>partículas <b id="dl-n-v">2200</b></span><input type="range" id="dl-n" min="200" max="4500" step="100" value="2200"></label>
+        <label class="ctl"><span>semente <b id="dl-s-v">3</b></span><input type="range" id="dl-s" min="1" max="40" step="1" value="3"></label>
+      </div>
+      <figcaption id="dl-cap"></figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — por que as pontas vencem</summary>
+      <div>
+        <p><strong>1.</strong> Uma partícula vinda de longe tem de atravessar a vizinhança do agregado
+        para alcançar um vale, mas qualquer ponta projetada para fora intercepta a trajetória antes.</p>
+        <p><strong>2.</strong> Isso se realimenta: a ponta que cresceu fica mais exposta e colhe mais.
+        É a instabilidade de Mullins–Sekerka, a mesma que faz flocos de neve terem braços.</p>
+        <p><strong>3.</strong> A probabilidade de aterrissar num ponto da fronteira é a
+        <strong>medida harmônica</strong> — a que resolve ∇²<i>u</i> = 0 com <i>u</i> = 0 no agregado.
+        Pontas têm gradiente alto; vales ficam blindados.</p>
+        <p><strong>4. Dimensão fractal.</strong> Massa e raio se relacionam por <i>M</i> ∝ <i>R</i><sup><i>D</i></sup>,
+        e a literatura reporta <i>D</i> ≈ 1,71 em duas dimensões — medido com precisão e
+        <strong>sem demonstração</strong>. Ninguém sabe derivá-lo de primeiros princípios.</p>
+        <p><strong>E a demonstração acima não chega lá.</strong> Este aglomerado dá <i>D</i> ≈ 1,47. Não
+        é erro de código: com alguns milhares de partículas, o efeito de tamanho finito domina. A
+        lentidão dessa convergência é parte do motivo pelo qual o expoente resiste a uma dedução — ele
+        só se revela no limite.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">4 · estrutura imposta</p>
+    <h2>Voronoi e o número seis</h2>
+    <p class="texto">
+      Sementes espalhadas ao acaso; cada ponto do plano recebe a cor da semente mais próxima. As
+      posições são arbitrárias; a estatística do resultado não é.
+    </p>
+    <figure class="demo">
+      <canvas id="c-voronoi" class="largo"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>sementes <b id="vo-n-v">120</b></span><input type="range" id="vo-n" min="12" max="400" step="4" value="120"></label>
+        <label class="ctl"><span>semente <b id="vo-s-v">11</b></span><input type="range" id="vo-s" min="1" max="60" step="1" value="11"></label>
+        <label class="alternar"><input type="checkbox" id="vo-bor" checked> bordas</label>
+      </div>
+      <figcaption id="vo-cap"></figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — seis sai de Euler, não das sementes</summary>
+      <div>
+        <p><strong>1.</strong> A região mais próxima de <i>s</i> do que de <i>t</i> é um semiplano. A
+        célula é a interseção de todos eles — portanto convexa, sempre.</p>
+        <p><strong>2.</strong> Um vértice do diagrama é equidistante de três sementes; quatro num mesmo
+        círculo tem probabilidade zero. Quase todo vértice tem grau 3.</p>
+        <p><strong>3.</strong> Por Euler, <i>V</i> − <i>E</i> + <i>F</i> = 2. Com 3<i>V</i> = 2<i>E</i>:</p>
+        <p class="formula">
+          <span class="fracao"><span>2<i>E</i></span><span>3</span></span> <span class="op">−</span> <i>E</i> <span class="op">+</span> <i>F</i> <span class="op">=</span> 2
+          <span class="op" style="padding:0 .9em">⟹</span>
+          <i>F</i> <span class="op">=</span> <span class="fracao"><span><i>E</i></span><span>3</span></span> <span class="op">+</span> 2
+        </p>
+        <p>Cada aresta separa 2 células, então a média de lados é 2<i>E</i>/<i>F</i> → <strong>6</strong>.</p>
+        <p><strong>Verificação.</strong> Contando vizinhos em grade fina e descartando células que
+        tocam a borda: 5,811 com 80 sementes, 5,880 com 200, 5,949 com 500.</p>
+        <p><strong>O que isso quer dizer.</strong> Seis não veio das sementes — veio da topologia do
+        plano. Qualquer processo que o particione em células convexas com vértices triplos obedece. Por
+        isso aparece em espuma de sabão, na pele da girafa, em terra rachada e nos basaltos da Calçada
+        dos Gigantes. Nenhum deles sabe que está obedecendo a Euler.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">5 · escolhas independentes</p>
+    <h2>Azulejos de Truchet</h2>
+    <p class="texto">
+      Em cada casa da grade, sorteie a orientação do azulejo sem olhar as vizinhas. As decisões são
+      totalmente independentes e o resultado não parece nada aleatório.
+    </p>
+    <figure class="demo">
+      <canvas id="c-truchet" class="largo"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>grade <b id="tr-n-v">22</b></span><input type="range" id="tr-n" min="6" max="48" step="1" value="22"></label>
+        <label class="ctl"><span>semente <b id="tr-s-v">5</b></span><input type="range" id="tr-s" min="1" max="60" step="1" value="5"></label>
+        <label class="alternar"><input type="checkbox" id="tr-cor" checked> colorir laços</label>
+      </div>
+      <figcaption>Cada azulejo foi decidido sozinho. Os laços fechados são consequência, não projeto.</figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — por que as curvas sempre fecham</summary>
+      <div>
+        <p><strong>1.</strong> Cada aresta da casa recebe exatamente um fim de arco, sempre no ponto
+        médio. Qualquer orientação sorteada mantém isso.</p>
+        <p><strong>2.</strong> Ao atravessar uma aresta, a curva entra na casa vizinha e é obrigada a
+        sair por outra — todo arco tem dois extremos. Em linguagem de grafos: cada ponto médio de
+        aresta tem <strong>grau exatamente 2</strong>, e um grafo onde todo vértice tem grau 2 é uma
+        união disjunta de ciclos. Não é provável — é forçado.</p>
+        <p><strong>3. O que o acaso de fato decide.</strong> Não <em>se</em> haverá laços, mas o
+        tamanho deles. Essa distribuição é um problema de percolação, e os laços grandes aparecem numa
+        lei de potência — a assinatura que separa fase ordenada de desordenada.</p>
+        <p><strong>Nota histórica.</strong> O padre Sébastien Truchet estudou isso em 1704, catalogando
+        as combinações de um azulejo quadrado dividido na diagonal. Três séculos antes de alguém chamar
+        isso de percolação.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">Fecho</p>
+    <h2>O ruído só preenche</h2>
+    <p class="texto">
+      O atrator sequer tem acaso — tem aritmética imprevisível, e a imagem é a medida invariante. O
+      passeio é acaso puro e obedece a √<i>n</i> com igualdade exata. A agregação decide <em>qual</em>
+      ponta cresce, nunca <em>se</em> haverá pontas. O Voronoi tem sementes arbitrárias e média ditada
+      por Euler. Os azulejos são decididos um a um, sem consulta, e sempre fecham.
+      <strong>Em todos, a regra carrega a forma, e o acaso só preenche os graus de liberdade que ela
+      deixou livres.</strong>
+    </p>
+  </main>
+
+  <script type="module" src="parte4.js"></script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Onde as curvas se encontram — Curvas</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="curvas">
+  <main>
+    <a class="voltar" href="./">← demonstrações</a>
+
+    <header>
+      <h1>Onde as curvas se encontram</h1>
+      <p>
+        As curvas não pertencem a um método — elas são pontos de encontro. Quando caminhos sem nada
+        em comum chegam ao mesmo lugar, existe uma estrutura mais funda do que qualquer um deles.
+      </p>
+    </header>
+
+    <p class="rotulo">Encontro 1 · quatro caminhos</p>
+    <h2>A cardioide</h2>
+
+    <p class="texto"><strong>1.</strong> Tabuada modular com <i>k</i> = 2.</p>
+    <figure class="demo">
+      <canvas id="c-tab"></canvas>
+      <figcaption>240 cordas. A curva azul é a envoltória, nunca traçada.</figcaption>
+    </figure>
+
+    <p class="texto"><strong>2.</strong> A xícara de café. Luz refletindo na parede circular.</p>
+    <figure class="demo">
+      <canvas id="c-caustica"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>raios <b id="k-raios-v">90</b></span><input type="range" id="k-raios" min="12" max="240" step="6" value="90"></label>
+        <label class="alternar"><input type="checkbox" id="k-par"> raios paralelos</label>
+        <label class="alternar"><input type="checkbox" id="k-env" checked> envoltória</label>
+      </div>
+      <figcaption id="k-cap">Fonte pontual na borda.</figcaption>
+    </figure>
+    <details class="deducao" open>
+      <summary>Isto não é analogia — é a mesma família de cordas</summary>
+      <div>
+        <p>No bilhar circular, um raio que entra pelo ponto de ângulo <i>a</i> e bate em <i>b</i>
+        reflete para 2<i>b</i> − <i>a</i>: o triângulo formado por dois raios do círculo é isósceles,
+        e a igualdade dos ângulos de incidência e reflexão força o passo angular a ser constante.</p>
+        <p>Com a fonte fixa em <i>a</i> = 0, <strong>a corda refletida vai de θ a 2θ</strong>. Que é
+        exatamente <code>i → 2i</code>. A xícara e a tabuada desenham a mesma coisa. Troque para raios
+        paralelos e o multiplicador vira 3: a nefroide.</p>
+        <p><strong>Verificação.</strong> Medindo a distância de cada corda refletida à cardioide
+        deduzida, para 400 valores de θ: maior desvio 4,4 × 10⁻⁶. Contra a nefroide, 1,6 × 10⁻¹ —
+        o teste discrimina.</p>
+      </div>
+    </details>
+
+    <p class="texto"><strong>3.</strong> Um círculo rolando por fora de outro do mesmo tamanho.</p>
+    <figure class="demo">
+      <canvas id="c-rolante"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>posição <b id="r-t-v">62%</b></span><input type="range" id="r-t" min="0" max="100" step="1" value="62"></label>
+        <label class="alternar"><input type="checkbox" id="r-cir" checked> mostrar o disco</label>
+      </div>
+      <figcaption>A cúspide é o instante em que a caneta toca o círculo fixo e sua velocidade zera.</figcaption>
+    </figure>
+
+    <p class="texto"><strong>4.</strong> O bulbo principal do conjunto de Mandelbrot.</p>
+    <figure class="demo">
+      <canvas id="c-mandel" class="largo"></canvas>
+      <div class="controles">
+        <label class="alternar"><input type="checkbox" id="mb-env" checked> cardioide exata</label>
+      </div>
+      <figcaption>A curva azul é <i>c</i> = μ/2 − μ²/4 com |μ| = 1, por cima do fractal.</figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — por que o bulbo é exatamente uma cardioide</summary>
+      <div>
+        <p><strong>1.</strong> <i>c</i> está no bulbo se <i>z</i> ↦ <i>z</i>² + <i>c</i> tem ponto fixo
+        atrator: <i>z</i>² − <i>z</i> + <i>c</i> = 0 com |2<i>z</i>| &lt; 1.</p>
+        <p><strong>2.</strong> Chamando μ = 2<i>z</i>, vem <i>c</i> = <i>z</i> − <i>z</i>² = μ/2 − μ²/4.</p>
+        <p><strong>3.</strong> O interior é |μ| &lt; 1; a fronteira é μ = <i>e</i><sup><i>i</i>θ</sup>:</p>
+        <p class="formula">
+          <i>x</i> <span class="op">=</span> <span class="fracao"><span>cos θ</span><span>2</span></span> <span class="op">−</span> <span class="fracao"><span>cos 2θ</span><span>4</span></span>
+          <span class="op" style="padding:0 1.1em"></span>
+          <i>y</i> <span class="op">=</span> <span class="fracao"><span>sen θ</span><span>2</span></span> <span class="op">−</span> <span class="fracao"><span>sen 2θ</span><span>4</span></span>
+        </p>
+        <p>Compare com (2cos θ + cos 2θ)/3 da demonstração 1: mesma curva, a menos de escala e rotação.
+        A cúspide em <i>c</i> = 1/4 é onde o atrator perde estabilidade e nasce o ciclo de período 2 —
+        o disco grudado à esquerda. A geometria da figura é a árvore de bifurcações.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">Encontro 2 · três caminhos</p>
+    <h2>O triângulo de Sierpiński</h2>
+    <p class="texto">Acaso puro, autômato determinístico e aritmética de binomiais.</p>
+
+    <p class="texto"><strong>1.</strong> Jogo do caos: sorteie um vértice, ande metade do caminho, marque.</p>
+    <figure class="demo">
+      <canvas id="c-caos"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>pontos <b id="x-n-v">40000</b></span><input type="range" id="x-n" min="500" max="120000" step="500" value="40000"></label>
+      </div>
+      <figcaption>Cada ponto é sorteado. A figura é exata.</figcaption>
+    </figure>
+
+    <p class="texto"><strong>2.</strong> Regra 90: viva se exatamente um dos dois vizinhos estava vivo.</p>
+    <figure class="demo">
+      <canvas id="c-regra" class="largo"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>gerações <b id="g-n-v">180</b></span><input type="range" id="g-n" min="20" max="400" step="10" value="180"></label>
+      </div>
+      <figcaption>Um XOR entre vizinhos, sem aleatoriedade nenhuma.</figcaption>
+    </figure>
+
+    <p class="texto"><strong>3.</strong> Triângulo de Pascal módulo 2: pinte os binomiais ímpares.</p>
+    <figure class="demo">
+      <canvas id="c-pascal" class="largo"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>linhas <b id="p-n-v">180</b></span><input type="range" id="p-n" min="20" max="400" step="10" value="180"></label>
+      </div>
+      <figcaption id="p-cap">Nenhuma geometria — só a paridade de C(n, k).</figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — por que os três coincidem</summary>
+      <div>
+        <p><strong>Regra 90 é Pascal módulo 2.</strong> O XOR dos vizinhos é a soma módulo 2, que é a
+        recorrência de Pascal reduzida. Partindo de uma célula viva, a linha <i>n</i> tem viva a
+        posição <i>k</i> exatamente quando C(<i>n</i>, <i>k</i>) é ímpar.</p>
+        <p><strong>Pascal módulo 2 é autossimilar — teorema de Lucas.</strong> Em binário,
+        C(<i>n</i>, <i>k</i>) ≡ ∏ C(<i>n<sub>i</sub></i>, <i>k<sub>i</sub></i>) (mod 2). Como C(0,1) = 0,
+        o produto só é ímpar se nenhum bit de <i>k</i> exceder o de <i>n</i>: C(<i>n</i>,<i>k</i>) é
+        ímpar ⟺ <code>k AND n == k</code>. A condição depende só dos bits, e bits são autossimilares.
+        Conferido nos 861 binomiais até <i>n</i> = 40: zero divergências.</p>
+        <p><strong>Jogo do caos é o atrator do mesmo sistema.</strong> As três contrações
+        <i>f<sub>i</sub></i>(<i>p</i>) = (<i>p</i> + <i>v<sub>i</sub></i>)/2 formam um sistema de funções
+        iteradas, e o teorema de Hutchinson garante um <strong>único</strong> compacto invariante. A
+        unicidade é a chave: o acaso não escolhe a forma — ele percorre a única que havia.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">Encontro 3 · três caminhos</p>
+    <h2>A razão áurea</h2>
+
+    <p class="texto"><strong>1.</strong> Ladrilhamento de Penrose: dois losangos que cobrem o plano sem nunca se repetir.</p>
+    <figure class="demo">
+      <canvas id="c-penrose"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>subdivisões <b id="pe-n-v">6</b></span><input type="range" id="pe-n" min="0" max="8" step="1" value="6"></label>
+      </div>
+      <figcaption id="pe-cap">Cada passo divide os triângulos na razão φ.</figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — onde φ entra</summary>
+      <div>
+        <p>Os triângulos de Robinson têm ângulos 36°-72°-72° e 36°-36°-108°, e em ambos a razão entre
+        o lado maior e o menor é φ — consequência de 2 cos 36° = φ.</p>
+        <p>Na deflação, cada <strong>gordo</strong> vira 1 gordo + 1 fino, e cada <strong>fino</strong>
+        vira 1 gordo + 2 finos:</p>
+        <p class="formula">
+          <i>g</i>′ <span class="op">=</span> <i>g</i> <span class="op">+</span> <i>f</i>
+          <span class="op" style="padding:0 1.2em"></span>
+          <i>f</i>′ <span class="op">=</span> <i>g</i> <span class="op">+</span> 2<i>f</i>
+          <span class="nota">A razão <i>x</i> = <i>g</i>/<i>f</i> satisfaz <i>x</i>′ = (<i>x</i>+1)/(<i>x</i>+2).</span>
+        </p>
+        <p>O ponto fixo é <i>x</i>² + <i>x</i> − 1 = 0, ou seja <i>x</i> = 1/φ ≈ 0,618034. Então
+        <strong><i>f</i>/<i>g</i> → φ</strong>. A matriz [[1,1],[1,2]] tem autovalor φ², que é por
+        quanto a contagem total cresce a cada subdivisão.</p>
+        <p><strong>E é por isso que não se repete.</strong> Se fosse periódico, a razão entre as
+        quantidades dos dois losangos seria racional. Sendo φ, nenhuma célula fundamental existe —
+        a aperiodicidade é corolário da irracionalidade.</p>
+      </div>
+    </details>
+
+    <p class="texto"><strong>2.</strong> Círculos de Ford: em cada racional <i>p</i>/<i>q</i>, um círculo de raio 1/2<i>q</i>².</p>
+    <figure class="demo">
+      <canvas id="c-ford" class="largo"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>denominador máximo <b id="fo-q-v">14</b></span><input type="range" id="fo-q" min="3" max="30" step="1" value="14"></label>
+        <label class="alternar"><input type="checkbox" id="fo-phi" checked> caminho até φ</label>
+      </div>
+      <figcaption id="fo-cap"></figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — tangência, Farey e por que φ é o pior</summary>
+      <div>
+        <p><strong>1.</strong> Calculando a distância entre os centros de <i>p</i>/<i>q</i> e
+        <i>r</i>/<i>s</i> e comparando com a soma dos raios, as circunferências são tangentes
+        <strong>se e somente se</strong> |<i>ps</i> − <i>qr</i>| = 1. A geometria enxerga exatamente
+        os vizinhos de Farey.</p>
+        <p><strong>2.</strong> Como |<i>ps</i> − <i>qr</i>| ≥ 1 sempre, dois racionais distintos jamais
+        produzem círculos sobrepostos.</p>
+        <p><strong>3.</strong> Um irracional α é bem aproximado por <i>p</i>/<i>q</i> quando a vertical
+        em α mergulha fundo no círculo de <i>p</i>/<i>q</i>.</p>
+        <p><strong>4.</strong> Subindo a vertical em 1/φ, ela resvala em círculos cada vez menores sem
+        jamais afundar. É o teorema de Hurwitz: existem infinitos <i>p</i>/<i>q</i> com
+        |α − <i>p</i>/<i>q</i>| &lt; 1/(√5 <i>q</i>²), e a constante √5 <strong>não pode ser
+        melhorada</strong> — porque φ a satura. O mesmo fato que escolhe 137,508° no girassol.</p>
+      </div>
+    </details>
+
+    <p class="texto"><strong>3.</strong> A espiral logarítmica: retângulos áureos encaixados.</p>
+    <figure class="demo">
+      <canvas id="c-espiral" class="largo"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>retângulos <b id="es-n-v">9</b></span><input type="range" id="es-n" min="2" max="12" step="1" value="9"></label>
+        <label class="alternar"><input type="checkbox" id="es-ret" checked> mostrar retângulos</label>
+      </div>
+      <figcaption>A espiral verdadeira é <i>r</i> = <i>e</i><sup>bθ</sup>; os quartos de círculo a aproximam.</figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — por que o retângulo se reproduz</summary>
+      <div>
+        <p>Tire um quadrado de um retângulo 1 × <i>x</i>. Sobra <i>x</i>−1 × 1. Exigir semelhança com
+        o original dá <i>x</i>/1 = 1/(<i>x</i>−1), ou <i>x</i>² − <i>x</i> − 1 = 0, ou <i>x</i> = φ.</p>
+        <p>O processo nunca termina porque o resultado é sempre a mesma forma. Essa autossimilaridade
+        exata produz uma espiral <strong>logarítmica</strong>, não de Arquimedes: o raio cresce por
+        multiplicação, não por soma. A espiral do náutilo, o ângulo do girassol e a aperiodicidade de
+        Penrose são três leituras da mesma equação de segundo grau.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">O que isso quer dizer</p>
+    <h2>Convergência não é coincidência</h2>
+    <p class="texto">
+      A cardioide é a envoltória das cordas θ → 2θ, e reflexão, rolamento e a dinâmica de
+      <i>z</i>² + <i>c</i> produzem essa duplicação de ângulo por motivos próprios. O Sierpiński é o
+      único compacto invariante por três contrações de razão 1/2, e paridade de binomiais, XOR de
+      vizinhos e sorteio de vértices são três formas de escrever essa invariância. E φ é a solução de
+      <i>x</i>² = <i>x</i> + 1, que é ao mesmo tempo a pior aproximação racional, a única proporção
+      autorreprodutora e a razão que impede qualquer período.
+      <strong>As curvas são poucas; os caminhos é que são muitos.</strong>
+    </p>
+  </main>
+
+  <script type="module" src="parte2.js"></script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Até onde vai uma curva — Curvas</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="curvas">
+  <main>
+    <a class="voltar" href="./">← demonstrações</a>
+
+    <header>
+      <h1>Até onde vai uma curva</h1>
+      <p>
+        Epiciclos suficientes desenham qualquer curva fechada. Aqui a afirmação é demonstrada e depois
+        levada ao extremo: até uma curva que preenche um quadrado, até um teorema que parece
+        impossível, e até o ponto em que a explicação acaba.
+      </p>
+    </header>
+
+    <p class="rotulo">1 · a universalidade</p>
+    <h2>Epiciclos desenham qualquer coisa</h2>
+    <p class="texto">
+      Braços girantes, cada um preso na ponta do anterior, cada um com velocidade angular inteira.
+      A ponta do último traça a curva.
+    </p>
+    <figure class="demo">
+      <canvas id="c-fourier"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>forma</span>
+          <select id="fo-forma">
+            <option value="quadrado">quadrado</option>
+            <option value="estrela">estrela de 5 pontas</option>
+            <option value="coracao">coração</option>
+          </select>
+        </label>
+        <label class="ctl"><span>braços <b id="fo-n-v">12</b></span><input type="range" id="fo-n" min="1" max="120" step="1" value="12"></label>
+        <label class="ctl"><span>posição <b id="fo-t-v">28%</b></span><input type="range" id="fo-t" min="0" max="100" step="1" value="28"></label>
+        <label class="alternar"><input type="checkbox" id="fo-cir" checked> círculos</label>
+      </div>
+      <figcaption id="fo-cap"></figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — por que funciona para qualquer curva</summary>
+      <div>
+        <p><strong>1.</strong> Trate o plano como ℂ: uma curva fechada é uma função periódica
+        <i>z</i>: [0,1] → ℂ. Um braço de comprimento |<i>c</i>| girando <i>k</i> voltas por período é
+        exatamente <i>c</i> <i>e</i><sup>2π<i>ikt</i></sup>.</p>
+        <p class="formula">
+          <i>z</i>(<i>t</i>) <span class="op">=</span> ∑<sub><i>k</i>∈ℤ</sub> <i>c<sub>k</sub></i> <i>e</i><sup>2π<i>ikt</i></sup>
+          <span class="op" style="padding:0 1.1em">com</span>
+          <i>c<sub>k</sub></i> <span class="op">=</span> ∫<sub>0</sub><sup>1</sup> <i>z</i>(<i>t</i>) <i>e</i><sup>−2π<i>ikt</i></sup> <i>dt</i>
+          <span class="nota">Os coeficientes são comprimento e fase inicial de cada braço.</span>
+        </p>
+        <p><strong>2.</strong> A fórmula do coeficiente é projeção: as funções
+        <i>e</i><sup>2π<i>ikt</i></sup> são ortonormais, então multiplicar a série por
+        <i>e</i><sup>−2π<i>ijt</i></sup> e integrar mata todos os termos menos um.</p>
+        <p><strong>3. O que não acontece aqui.</strong> Uma curva fechada é, por definição, contínua —
+        e para contínua e suave por partes a série converge <strong>uniformemente</strong>. O fenômeno
+        de Gibbs, aquele repuxo teimoso de 9%, exige um salto na própria função. O canto do quadrado é
+        um salto na derivada, não na posição. Não há Gibbs numa curva fechada.</p>
+        <p><strong>4. O que o canto custa é velocidade.</strong> Reconstruindo o quadrado: erro máximo
+        0,268 com 1 braço, 0,036 com 8, 0,0035 com 64, 0,0006 com 120. Cai sem estacionar. E os
+        coeficientes contam por quê — só harmônicos ímpares, decaindo como 1/<i>k</i>²:
+        |<i>c</i><sub>1</sub>| = 1,1463; |<i>c</i><sub>−3</sub>| = 0,1274 = 1,1463/9;
+        |<i>c</i><sub>5</sub>| = 0,0459 = 1,1463/25.</p>
+        <p>Esse decaimento é a assinatura de função contínua com derivada descontínua. Uma curva lisa
+        teria decaimento exponencial. <strong>A forma do espectro conta que tipo de singularidade a
+        curva tem</strong> — antes de você olhar o desenho.</p>
+        <p><strong>Onde isso já apareceu.</strong> Uma epicicloide é uma cadeia de dois braços. A
+        cardioide é <i>c</i><sub>1</sub> = 2/3 e <i>c</i><sub>2</sub> = 1/3, e mais nada. A tabuada
+        inteira era um caso de dois termos de Fourier.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">2 · o limite</p>
+    <h2>Uma curva que é um quadrado</h2>
+    <p class="texto">
+      Se epiciclos desenham qualquer curva, quanto uma curva pode conter? A resposta destruiu a
+      intuição de que curva é objeto de dimensão 1.
+    </p>
+    <figure class="demo">
+      <canvas id="c-hilbert"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>ordem <b id="hi-n-v">5</b></span><input type="range" id="hi-n" min="1" max="8" step="1" value="5"></label>
+      </div>
+      <figcaption id="hi-cap"></figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — contínua, sobrejetora, e nunca injetora</summary>
+      <div>
+        <p><strong>1.</strong> Divida o quadrado em 4, visite os quadrantes numa ordem fixa e repita
+        dentro de cada um, com rotações escolhidas para a saída de um encostar na entrada do seguinte.</p>
+        <p><strong>2. Convergência uniforme.</strong> <i>H<sub>n</sub></i> e <i>H</i><sub><i>n</i>+1</sub>
+        nunca discordam por mais que a diagonal de uma célula: ‖<i>H<sub>n</sub></i> − <i>H</i><sub><i>n</i>+1</sub>‖ ≤ √2/2<sup><i>n</i></sup>.
+        A soma telescópica converge, e limite uniforme de contínuas é contínuo. <strong>A curva-limite
+        existe</strong>, por um argumento de três linhas.</p>
+        <p><strong>3. Sobrejetora.</strong> Dado um ponto, em cada nível existe uma célula que o contém
+        e a curva passa por ela. Os intervalos de tempo são encaixados e fechados; por compacidade a
+        interseção é não vazia. A curva atinge <strong>todo</strong> ponto do quadrado.</p>
+        <p><strong>4. Mas não injetora.</strong> Se fosse, seria bijeção contínua de um compacto, logo
+        homeomorfismo entre [0,1] e o quadrado. Impossível: tirar um ponto interior de [0,1] o
+        desconecta, tirar um ponto do quadrado não. Então <strong>toda</strong> curva que preenche o
+        quadrado se autointersecta.</p>
+        <p><strong>Por que importou.</strong> Peano publicou a primeira em 1890 e a dimensão topológica
+        precisou ser redefinida. "Curva tem dimensão 1" deixou de ser evidente e passou a exigir prova
+        — a de Brouwer, de que a dimensão é invariante por homeomorfismo.</p>
+        <p><strong>Verificação.</strong> Ordem 5 visita as 1024 células exatamente uma vez, sem repetir
+        nenhuma e sem nenhum passo maior que 1.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">3 · o teorema improvável</p>
+    <h2>Se fecha uma vez, fecha sempre</h2>
+    <p class="texto">
+      Comece num ponto do círculo grande, trace a tangente ao pequeno até reencontrar o grande,
+      repita. Para raios genéricos o caminho nunca se fecha. Mas se fechar <strong>uma vez</strong>,
+      fecha começando de qualquer ponto.
+    </p>
+    <figure class="demo">
+      <canvas id="c-poncelet"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>lados <b id="po-n-v">3</b></span><input type="range" id="po-n" min="3" max="4" step="1" value="3"></label>
+        <label class="ctl"><span>raio interno <b id="po-r-v">0.30</b></span><input type="range" id="po-r" min="12" max="46" step="1" value="30"></label>
+        <label class="ctl"><span>ponto inicial <b id="po-t-v">0°</b></span><input type="range" id="po-t" min="0" max="359" step="1" value="0"></label>
+        <label class="alternar"><input type="checkbox" id="po-tod"> sobrepor várias</label>
+      </div>
+      <figcaption id="po-cap"></figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>Dedução — a condição exata e por que o ponto inicial não importa</summary>
+      <div>
+        <p><strong>Triângulos — Chapple e Euler.</strong> Existe triângulo inscrito no círculo de raio
+        <i>R</i> e circunscrito ao de raio <i>r</i>, com centros a distância <i>d</i>, se e somente se
+        <i>d</i>² = <i>R</i>² − 2<i>Rr</i>. Chapple, 1746; redescoberta por Euler em 1765.</p>
+        <p><strong>Quadriláteros — Fuss.</strong> 1/(<i>R</i>−<i>d</i>)² + 1/(<i>R</i>+<i>d</i>)² = 1/<i>r</i>².
+        Para cada <i>n</i> há uma condição análoga — as condições de Cayley — e elas ficam monstruosas
+        rápido.</p>
+        <p><strong>Por que o ponto inicial não importa.</strong> A demonstração moderna coloca os pares
+        (ponto, tangente) numa <strong>curva elíptica</strong>. O passo "ande para a próxima tangente"
+        vira translação por um elemento fixo <i>τ</i> do grupo. Fechar em <i>n</i> passos significa
+        <i>nτ</i> = 0, isto é, <i>τ</i> é ponto de torção de ordem <i>n</i>. Essa é uma propriedade de
+        <i>τ</i>, <strong>não do ponto onde você começou</strong> — numa translação de grupo, a ordem
+        do elemento não depende de onde se aplica. Ou fecha para todo mundo, ou para ninguém.</p>
+        <p><strong>Verificação.</strong> Testando 60 pontos iniciais distintos: erro de fechamento
+        3,8 × 10⁻¹⁵ para <i>n</i> = 3 e 4,8 × 10⁻¹⁵ para <i>n</i> = 4. Com um raio que não satisfaz a
+        condição, o erro salta para 1,3.</p>
+      </div>
+    </details>
+
+    <p class="rotulo">4 · onde a explicação acaba</p>
+    <h2>A espiral de Ulam</h2>
+    <p class="texto">
+      Escreva os inteiros numa espiral quadrada e marque os primos. Era para dar ruído — primos não
+      sabem que estão numa espiral. Aparecem diagonais.
+    </p>
+    <figure class="demo">
+      <canvas id="c-ulam"></canvas>
+      <div class="controles">
+        <label class="ctl"><span>números <b id="ul-n-v">22500</b></span><input type="range" id="ul-n" min="2500" max="90000" step="2500" value="22500"></label>
+        <label class="alternar"><input type="checkbox" id="ul-41" checked> começar em 41</label>
+        <label class="alternar"><input type="checkbox" id="ul-eu" checked> destacar n²+n+41</label>
+      </div>
+      <figcaption id="ul-cap"></figcaption>
+    </figure>
+    <details class="deducao">
+      <summary>O que se sabe, o que se conjectura e o que não se sabe</summary>
+      <div>
+        <p><strong>Por que as diagonais são polinômios.</strong> Andar na diagonal faz o número crescer
+        quadraticamente: toda diagonal é o conjunto de valores de 4<i>n</i>² + <i>bn</i> + <i>c</i>.
+        Isso é trivial — é só contar os passos.</p>
+        <p><strong>O que não é trivial.</strong> Alguns desses polinômios produzem primos com densidade
+        muito maior. O campeão é o de Euler, <i>n</i>² + <i>n</i> + 41, primo para todo <i>n</i> de 0 a
+        39 — quarenta primos seguidos.</p>
+        <p>Há explicação parcial e bonita: 41 está ligado ao corpo quadrático ℚ(√−163), cujo anel de
+        inteiros tem fatoração única, e 163 é o maior dos <strong>números de Heegner</strong> — a mesma
+        constante que faz <i>e</i><sup>π√163</sup> ser quase inteiro. Isso explica <em>este</em> polinômio.</p>
+        <p><strong>O que continua aberto.</strong> O fenômeno geral é descrito pela conjectura F de
+        Hardy–Littlewood, de 1923. Ela prevê as densidades com precisão impressionante e bate com todo
+        cálculo numérico já feito. Continua <strong>sem demonstração</strong>. Nem se sabe provar que
+        <i>n</i>² + 1 é primo infinitas vezes.</p>
+        <p>A espiral de Ulam não é curiosidade resolvida: é a imagem de um problema aberto. Ulam a
+        rabiscou em 1963 durante uma palestra entediante, e ela continua mostrando mais do que alguém
+        consegue explicar.</p>
+      </div>
+    </details>
+  </main>
+
+  <script type="module" src="parte3.js"></script>
+</body>
+</html>
